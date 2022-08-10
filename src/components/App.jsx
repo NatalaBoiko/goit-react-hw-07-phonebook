@@ -1,12 +1,16 @@
 import { useState, useEffect } from 'react';
-
 import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
 import { nanoid } from 'nanoid';
 import './App.module.css';
 
+import { Counter } from './Counter/Counter';
+// import { useDispatch, useSelector } from 'react-redux';
+
 export const App = () => {
+  // const dispatch = useDispatch();
+
   const [contacts, setContacts] = useState(
     JSON.parse(localStorage.getItem('contacts')) ?? []
   );
@@ -51,6 +55,7 @@ export const App = () => {
 
   return (
     <section>
+      <Counter />
       <h1>Phonebook</h1>
       <ContactForm onSubmit={formSubmit} />
       <h2>Contacts</h2>
