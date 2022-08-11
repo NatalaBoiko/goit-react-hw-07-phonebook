@@ -1,22 +1,37 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { createSlice } from '@reduxjs/toolkit';
+// import { createSlice } from '@reduxjs/toolkit';
+import filter from './filter';
+import contacts from './contacts';
 
-const mySlice = createSlice({
-  name: 'myValue',
-  initialState: 0,
-  reducers: {
-    increment(state, action) {
-      return state + action.payload;
-    },
-    decrement(state, action) {
-      return state - action.payload;
-    },
+export const store = configureStore({
+  reducer: {
+    filter,
+    contacts,
   },
 });
 
-console.log(mySlice);
+// const mySlice = createSlice({
+//   name: 'myValue',
+//   initialState: 0,
+//   reducers: {
+//     increment(state, action) {
+//       return state + action.payload;
+//     },
+//     decrement(state, action) {
+//       return state - action.payload;
+//     },
+//   },
+// });
+// {
+//     contacts: {
+//       items: [],
+//       filter: ''
+//     }
+//   }
 
-export const { increment, decrement } = mySlice.actions;
+// console.log(mySlice);
+
+// export const { increment, decrement } = mySlice.actions;
 
 // export const store = configureStore({
 //   reducer: {
@@ -24,32 +39,32 @@ export const { increment, decrement } = mySlice.actions;
 //   },
 // });
 //==========================================
-const itemSlice = createSlice({
-  name: 'items',
-  initialState: [],
-  reducers: {
-    add(state, action) {
-      state.push(action.payload);
-    },
-    remove(state, action) {
-      return state.filter(item => item.id !== action.payload);
-    },
-  },
-});
+// const itemSlice = createSlice({
+//   name: 'items',
+//   initialState: [],
+//   reducers: {
+//     add(state, action) {
+//       state.push(action.payload);
+//     },
+//     remove(state, action) {
+//       return state.filter(item => item.id !== action.payload);
+//     },
+//   },
+// });
 
-export const { add, remove } = itemSlice.actions;
+// export const { add, remove } = itemSlice.actions;
 
 // contacts: {
 //     items: [],
 //     filter: ''
 //   }
 
-export const store = configureStore({
-  reducer: {
-    myValue: mySlice.reducer,
-    items: itemSlice.reducer,
-  },
-});
+// export const store = configureStore({
+//   reducer: {
+//     myValue: mySlice.reducer,
+//     items: itemSlice.reducer,
+//   },
+// });
 
 //==========================================
 
