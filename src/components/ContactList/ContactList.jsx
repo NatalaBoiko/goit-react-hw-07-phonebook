@@ -40,7 +40,7 @@ export const ContactList = () => {
                     deleteContact(id);
                   }}
                 >
-                  Delete
+                  {isLoading ? '...' : 'Delete'}
                 </button>
               </li>
             );

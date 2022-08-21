@@ -1,59 +1,59 @@
-// import { useState } from 'react';
-// import { nanoid } from 'nanoid';
-// import { useDispatch, useSelector } from 'react-redux';
-
-// import PropTypes from 'prop-types';
+import { useState } from 'react';
 import './ContactForm.module.css';
+import {
+  useGetContactsQuery,
+  useAddContactMutation,
+} from '../../redux/contactsSlice';
 
 export const ContactForm = () => {
-  // const [name, setName] = useState('');
-  // const [number, setNumber] = useState('');
-  // const dispatch = useDispatch();
+  const [name, setName] = useState('');
+  const [phone, setNumber] = useState('');
 
-  // const handleChange = event => {
-  //   // console.log(event.target.value, event.target.name);
-  //   const { name, value } = event.target;
-  //   switch (name) {
-  //     case 'name':
-  //       setName(value);
-  //       break;
-  //     case 'number':
-  //       setNumber(value);
-  //       break;
-  //     default:
-  //       break;
-  //   }
-  // };
+  const { data: contacts } = useGetContactsQuery();
+  const [addContact, { isLoading, isSuccess }] = useAddContactMutation();
 
-  // const handleSubmit = event => {
-  //   event.preventDefault();
-  //   const contact = {
-  //     id: nanoid(),
-  //     name,
-  //     number,
-  //   };
+  const handleChange = event => {
+    const { name, value } = event.target;
+    switch (name) {
+      case 'name':
+        setName(value);
+        break;
+      case 'number':
+        setNumber(value);
+        break;
+      default:
+        break;
+    }
+  };
 
-  //   const enterContacts = contacts.some(
-  //     contact =>
-  //       (contact.name === name.toLowerCase() && contact.number === number) ||
-  //       contact.number === number
-  //   );
-  //   enterContacts
-  //     ? alert(`${name} or ${number} is already in contacts`)
-  //     :
-  //   dispatch(addContact(contact));
+  const handleSubmit = async event => {
+    event.preventDefault();
+    const contact = {
+      name,
+      phone,
+    };
 
-  //   setName('');
-  //   setNumber('');
-  // };
+    const enterContacts = contacts.some(
+      contact =>
+        (contact.name === name.toLowerCase() && contact.phone === phone) ||
+        contact.phone === phone
+    );
+
+    enterContacts
+      ? alert(`${name} or ${phone} is already in contacts`)
+      : addContact(contact);
+
+    setName('');
+    setNumber('');
+  };
 
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <input
         type="text"
         name="name"
-        // value={name}
-        // onChange={handleChange}
+        value={name}
+        onChange={handleChange}
         placeholder="Name"
         pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
         title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
@@ -62,8 +62,8 @@ export const ContactForm = () => {
       <input
         type="tel"
         name="number"
-        // value={number}
-        // onChange={handleChange}
+        value={phone}
+        onChange={handleChange}
         placeholder="number"
         pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
         title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
@@ -73,9 +73,3 @@ export const ContactForm = () => {
     </form>
   );
 };
-
-// ContactForm.prototypes = {
-//   name: PropTypes.string,
-//   number: PropTypes.number,
-//   onSubmit: PropTypes.func,
-// };
