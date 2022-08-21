@@ -1,35 +1,45 @@
 import './ContactList.module.css';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { getContacts, getFilter, deleteContact } from '../../redux/slice';
+import { useSelector } from 'react-redux';
+import { getFilter } from '../../redux/filterSlice';
+import { useGetContactsQuery } from '../../redux/contactsSlice';
 
 export const ContactList = () => {
-  // const dispatch = useDispatch();
-  // const contacts = useSelector(getContacts);
-  // const filter = useSelector(getFilter);
+  const filter = useSelector(getFilter);
+  console.log(filter);
+  const { data: contacts, error, isLoading } = useGetContactsQuery();
+  console.log(contacts);
 
-  // const findContacts = () => {
-  //   const normalizedFilter = filter.toLowerCase();
-  //   return contacts.filter(contact =>
-  //     contact.name.toLowerCase().includes(normalizedFilter)
-  //   );
-  // };
+  const findContacts = () => {
+    const normalizedFilter = filter.toLowerCase();
+    if (contacts) {
+      return contacts.filter(contact =>
+        contact.name.toLowerCase().includes(normalizedFilter)
+      );
+    }
+  };
 
-  // const filteredContacts = findContacts();
+  const filteredContacts = findContacts();
 
   return (
-    <ul>
-      {/* {filteredContacts.map(({ id, name, number }) => {
-        return (
-          <li key={id}>
-            <p>
-              {name}: {number}
-            </p>
-            <button type="button" onClick={() => dispatch(deleteContact(id))}>
-              Delete
-            </button>
-          </li>
-        );
-      })} */}
-    </ul>
+    <>
+      {isLoading && <p>Loading...</p>}
+      {contacts ? (
+        <ul>
+          {filteredContacts.map(({ id, name, phone }) => {
+            return (
+              <li key={id}>
+                <div>
+                  <h3>{name}:</h3>
+                  <p>{phone}</p>
+                </div>
+                <button type="button">Delete</button>
+              </li>
+            );
+          })}
+        </ul>
+      ) : (
+        <p>The contact list is empty</p>
+      )}
+    </>
   );
 };
