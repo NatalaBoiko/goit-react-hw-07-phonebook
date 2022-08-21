@@ -7,6 +7,7 @@ import './Filter.module.css';
 export const Filter = () => {
   const dispatch = useDispatch();
   const filter = useSelector(getFilter);
+  console.log(filter);
 
   const onChangeFilter = e => {
     dispatch(setFilter(e.target.value));
