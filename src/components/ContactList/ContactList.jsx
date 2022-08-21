@@ -8,7 +8,7 @@ import {
 
 export const ContactList = () => {
   const filter = useSelector(getFilter);
-  const { data: contacts, error, isFetching } = useGetContactsQuery();
+  const { data: contacts, isFetching } = useGetContactsQuery();
   const [deleteContact, { isLoading }] = useDeleteContactMutation();
 
   const findContacts = () => {

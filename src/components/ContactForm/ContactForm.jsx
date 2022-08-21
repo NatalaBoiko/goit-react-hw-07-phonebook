@@ -10,7 +10,7 @@ export const ContactForm = () => {
   const [phone, setNumber] = useState('');
 
   const { data: contacts } = useGetContactsQuery();
-  const [addContact, { isLoading, isSuccess }] = useAddContactMutation();
+  const [addContact] = useAddContactMutation();
 
   const handleChange = event => {
     const { name, value } = event.target;
