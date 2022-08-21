@@ -1,13 +1,15 @@
 import './ContactList.module.css';
 import { useSelector } from 'react-redux';
 import { getFilter } from '../../redux/filterSlice';
-import { useGetContactsQuery } from '../../redux/contactsSlice';
+import {
+  useGetContactsQuery,
+  useDeleteContactMutation,
+} from '../../redux/contactsSlice';
 
 export const ContactList = () => {
   const filter = useSelector(getFilter);
-  console.log(filter);
-  const { data: contacts, error, isLoading } = useGetContactsQuery();
-  console.log(contacts);
+  const { data: contacts, error, isFetching } = useGetContactsQuery();
+  const [deleteContact, { isLoading }] = useDeleteContactMutation();
 
   const findContacts = () => {
     const normalizedFilter = filter.toLowerCase();
@@ -22,8 +24,8 @@ export const ContactList = () => {
 
   return (
     <>
-      {isLoading && <p>Loading...</p>}
-      {contacts ? (
+      {isFetching && <p>Loading...</p>}
+      {contacts && (
         <ul>
           {filteredContacts.map(({ id, name, phone }) => {
             return (
@@ -32,13 +34,18 @@ export const ContactList = () => {
                   <h3>{name}:</h3>
                   <p>{phone}</p>
                 </div>
-                <button type="button">Delete</button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    deleteContact(id);
+                  }}
+                >
+                  Delete
+                </button>
               </li>
             );
           })}
         </ul>
-      ) : (
-        <p>The contact list is empty</p>
       )}
     </>
   );
